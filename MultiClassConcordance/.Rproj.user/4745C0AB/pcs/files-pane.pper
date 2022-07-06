@@ -1,0 +1,13 @@
+{
+    "sortOrder": [
+        {
+            "columnIndex": 2,
+            "ascending": true
+        },
+        {
+            "columnIndex": 4,
+            "ascending": false
+        }
+    ],
+    "path": "C:/Users/zou19/OneDrive - University of Pittsburgh/Ongoing_Project/Methodology/202203_multi_class_correlation/multiclass_concordance/MultiClassConcordance"
+}
