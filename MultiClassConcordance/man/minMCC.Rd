@@ -2,7 +2,7 @@
 % Please edit documentation in R/stat_function.R
 \name{minMCC}
 \alias{minMCC}
-\title{Minimum multi-class correlation (min-MCC)}
+\title{Minimum Multi-class Correlation (min-MCC)}
 \usage{
 minMCC(study.data.list, study.label.list, w.est = NULL)
 }

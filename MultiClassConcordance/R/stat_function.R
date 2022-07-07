@@ -1,4 +1,4 @@
-#' Multi-class correlation (MCC)
+#' Multi-class Correlation (MCC)
 #'
 #' This function is used to calculate the multi-class correlation (MCC) between two studies of gene expression, where the gene expressions are assumed to follow Gaussian distribution.
 #'
@@ -36,7 +36,7 @@ MCC <- function(study1.data, study1.label, study2.data, study2.label, w.est = NU
 }
 
 
-#' Minimum multi-class correlation (min-MCC)
+#' Minimum Multi-class Correlation (min-MCC)
 #'
 #' This function is used to calculate the minimum multi-class correlation (min-MCC) among multiple studies of gene expression, where the gene expressions are assumed to follow Gaussian distribution.
 #'
@@ -71,7 +71,7 @@ minMCC <- function(study.data.list, study.label.list, w.est = NULL){
 }
 
 
-#' Multi-class total correlation (MC-TC)
+#' Multi-class Total Correlation (MC-TC)
 #'
 #' This function is used to calculate the multi-class total correlation (MC-TC) among multiple studies of gene expression, where the gene expressions are assumed to follow Gaussian distribution.
 #'
@@ -135,7 +135,7 @@ MCTC <- function(study.data.list, study.label.list, w.est = NULL){
 }
 
 
-#' A function to combine the MCTC and minMCC
+#' A Function to Combine the MC-TC and min-MCC
 #'
 #' @keywords internal
 #' @param study.data.list a list of data frames or matrices with rows for the genes and columns for the samples.
@@ -156,13 +156,13 @@ mc.stat <- function(study.data.list, study.label.list, w.est = NULL){
 }
 
 
-#' Permutation test for min-MCC, MCTC, and post-hoc MCMI analysis
+#' Permutation Test for min-MCC, MC-TC, and Post-hoc MC-MI Analysis
 #'
 #' @param study.data.list a list of data frames or matrices with rows for the genes and columns for the samples.
 #' @param study.label.list a list of vectors of the class labels.
 #' @param w.est a vector of pre-defined class weights that add up to 1. If not specified, it will be calculated from the data.
-#' @param n.perm permutation times
-#' @param n.parallel number of cores used for parallel computation
+#' @param n.perm permutation times.
+#' @param n.parallel number of cores used for parallel computation.
 #'
 #' @return
 #' @export

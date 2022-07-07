@@ -2,7 +2,7 @@
 % Please edit documentation in R/stat_function.R
 \name{mc.stat}
 \alias{mc.stat}
-\title{A function to combine the MCTC and minMCC}
+\title{A Function to Combine the MC-TC and min-MCC}
 \usage{
 mc.stat(study.data.list, study.label.list, w.est = NULL)
 }
@@ -17,6 +17,6 @@ mc.stat(study.data.list, study.label.list, w.est = NULL)
 
 }
 \description{
-A function to combine the MCTC and minMCC
+A Function to Combine the MC-TC and min-MCC
 }
 \keyword{internal}

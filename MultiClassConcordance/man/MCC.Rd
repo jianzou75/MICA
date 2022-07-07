@@ -2,7 +2,7 @@
 % Please edit documentation in R/stat_function.R
 \name{MCC}
 \alias{MCC}
-\title{Multi-class correlation (MCC)}
+\title{Multi-class Correlation (MCC)}
 \usage{
 MCC(study1.data, study1.label, study2.data, study2.label, w.est = NULL)
 }

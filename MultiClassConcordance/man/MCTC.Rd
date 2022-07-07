@@ -2,7 +2,7 @@
 % Please edit documentation in R/stat_function.R
 \name{MCTC}
 \alias{MCTC}
-\title{Multi-class total correlation (MC-TC)}
+\title{Multi-class Total Correlation (MC-TC)}
 \usage{
 MCTC(study.data.list, study.label.list, w.est = NULL)
 }

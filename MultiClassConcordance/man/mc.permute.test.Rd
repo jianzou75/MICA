@@ -2,7 +2,7 @@
 % Please edit documentation in R/stat_function.R
 \name{mc.permute.test}
 \alias{mc.permute.test}
-\title{Permutation test for min-MCC, MCTC, and post-hoc MCMI analysis}
+\title{Permutation Test for min-MCC, MC-TC, and Post-hoc MC-MI Analysis}
 \usage{
 mc.permute.test(
   study.data.list,
@@ -19,13 +19,13 @@ mc.permute.test(
 
 \item{w.est}{a vector of pre-defined class weights that add up to 1. If not specified, it will be calculated from the data.}
 
-\item{n.perm}{permutation times}
+\item{n.perm}{permutation times.}
 
-\item{n.parallel}{number of cores used for parallel computation}
+\item{n.parallel}{number of cores used for parallel computation.}
 }
 \value{
 
 }
 \description{
-Permutation test for min-MCC, MCTC, and post-hoc MCMI analysis
+Permutation Test for min-MCC, MC-TC, and Post-hoc MC-MI Analysis
 }
