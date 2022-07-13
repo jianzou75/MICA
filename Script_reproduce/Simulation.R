@@ -107,17 +107,17 @@ for(i in 1:200){
 
 
 ### After iteration
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$TC_tbl$qval <= 0.05)[1:300])))
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$minMI_tbl$qval <= 0.05)[1:300])))
+mean(sapply(1:50, function(x) sum((perm.test.res.list2[[x]]$MCTC_tbl$qval <= 0.05)[1:300])))
+mean(sapply(1:50, function(x) sum((perm.test.res.list2[[x]]$minMI_tbl$qval <= 0.05)[1:300])))
 
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$TC_tbl$qval <= 0.05)[301:400])))
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$minMI_tbl$qval <= 0.05)[301:400])))
+mean(sapply(1:50, function(x) sum((perm.test.res.list2[[x]]$MCTC_tbl$qval <= 0.05)[301:400])))
+mean(sapply(1:50, function(x) sum((perm.test.res.list2[[x]]$minMI_tbl$qval <= 0.05)[301:400])))
 
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$TC_tbl$qval <= 0.05)[401:500])))
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$minMI_tbl$qval <= 0.05)[401:500])))
+mean(sapply(1:50, function(x) sum((perm.test.res.list2[[x]]$MCTC_tbl$qval <= 0.05)[401:500])))
+mean(sapply(1:50, function(x) sum((perm.test.res.list2[[x]]$minMI_tbl$qval <= 0.05)[401:500])))
 
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$TC_tbl$qval <= 0.05)[501:2000])))
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$minMI_tbl$qval <= 0.05)[501:2000])))
+mean(sapply(1:50, function(x) sum((perm.test.res.list2[[x]]$MCTC_tbl$qval <= 0.05)[501:2000])))
+mean(sapply(1:50, function(x) sum((perm.test.res.list2[[x]]$minMI_tbl$qval <= 0.05)[501:2000])))
 
 
 

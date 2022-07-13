@@ -1,0 +1,150 @@
+MCPC_binary <- function(study1.data, study1.label, study2.data, study2.label, w.est){
+  if(ncol(study1.data) != ncol(study2.data)){stop("The number of features should be equal between two studies.")}
+  n.feature <- ncol(study1.data)
+  
+  if(is.null(w.est)){w.est <- unname(c(table(c(study1.label, study2.label)))/length(c(study1.label, study2.label)))}
+  study1.mu.grp  <- aggregate(study1.data, list(study1.label), FUN=mean)[,-1]
+  study1.var.grp <- aggregate(study1.data, list(study1.label), FUN=var)[,-1]
+  study2.mu.grp  <- aggregate(study2.data, list(study2.label), FUN=mean)[,-1]
+  study2.var.grp <- aggregate(study2.data, list(study2.label), FUN=var)[,-1]
+  
+  study1.mu  <- apply(study1.mu.grp, 2, function(x) sum(x * w.est))
+  study1.var <- sapply(1:n.feature, function(i) sum(w.est*(study1.mu.grp[,i]^2 + study1.var.grp[,i])) - (study1.mu[i]^2))
+  study2.mu  <- apply(study2.mu.grp, 2, function(x) sum(x * w.est))
+  study2.var <- sapply(1:n.feature, function(i) sum(w.est*(study2.mu.grp[,i]^2 + study2.var.grp[,i])) - (study2.mu[i]^2))
+  
+  MCPC_binary_stat <- sapply(1:n.feature, function(i) (sum(w.est * study1.mu.grp[,i] * study2.mu.grp[,i]) - (study1.mu[i] * study2.mu[i]))/(sqrt(study1.var[i] * study2.var[i])))
+  
+  return(MCPC_binary_stat = MCPC_binary_stat)
+}
+
+## multi-class stat and test
+mc.stat <- function(study.data.list, study.label.list, w.est = NULL){
+  if(is.null(w.est)){w.est <- unname(c(table(unlist(study.label.list)))/length(unlist(study.label.list)))}
+  
+  ## Obtain the between study correlation
+  n.feature <- ncol(study.data.list[[1]])
+  n.study <- length(study.data.list)
+  cmb <- expand.grid(1:n.study, 1:n.study)
+  cmb <- cmb[cmb$Var1 < cmb$Var2,]
+  MCPC_tbl <- data.frame(matrix(nrow = nrow(cmb), ncol = n.feature))
+  
+  for (c in 1:nrow(cmb)){
+    MCPC_tbl[c, ] <- MCPC_binary(study1.data = study.data.list[[cmb[c,1]]], study1.label = study.label.list[[cmb[c,1]]],
+                                 study2.data = study.data.list[[cmb[c,2]]], study2.label = study.label.list[[cmb[c,2]]],
+                                 w.est = w.est)
+  }
+  MCPC_tbl[MCPC_tbl < 0] = 0 ## A trunctated term
+  
+  ## Obtain the variance for each study
+  study.var.grp <- lapply(1:n.study, function(s) aggregate(study.data.list[[s]], list(study.label.list[[s]]), FUN=var)[,-1])
+  study.mu.grp  <- lapply(1:n.study, function(s) aggregate(study.data.list[[s]], list(study.label.list[[s]]), FUN=mean)[,-1])
+  study.var.tbl <- data.frame(matrix(nrow = n.study, ncol = n.feature))
+  
+  for(s in 1:n.study){
+    study.mu <-  apply(study.mu.grp[[s]], 2, function(x) sum(x * w.est))
+    study.var <- sapply(1:n.feature, function(i) sum(w.est*(study.mu.grp[[s]][,i]^2 + study.var.grp[[s]][,i])) - (study.mu[i]^2))
+    study.var.tbl[s,] <- study.var
+  }
+  
+  ## Obtain the total correlation (TC), partial independence (minMI), and covariance matrix for each feature
+  TC_features = minMI_features = c()
+  for(f in 1:n.feature){
+    Sigma <- matrix(nrow = n.study, ncol = n.study)
+    diag(Sigma) <- study.var.tbl[,f]
+    
+    for (c in 1:nrow(cmb)){
+      off_dig <- sqrt(study.var.tbl[cmb[c,1],f] * study.var.tbl[cmb[c,2],f]) * MCPC_tbl[c,f]
+      Sigma[cmb[c,1], cmb[c,2]] = off_dig
+      Sigma[cmb[c,2], cmb[c,1]] = off_dig
+    }
+    
+    ### total correlation
+    TC <- -log(det(Sigma)/det(diag(diag(Sigma))))/2
+   
+    ### partial indpendence
+    minMI_vec <- c()
+    for (c in 1:nrow(cmb)){
+      Sigma_minMI <- Sigma[c(cmb[c,1], cmb[c,2]), c(cmb[c,1], cmb[c,2])]
+      Sigma_minMI[1, 2] = 0
+      Sigma_minMI[2, 1] = 0
+      minMI_vec <- c(minMI_vec, -log(det(Sigma[c(cmb[c,1], cmb[c,2]), c(cmb[c,1], cmb[c,2])])/det(Sigma_minMI))/2)
+    }
+    minMI <- min(minMI_vec)
+    
+    TC_features <- c(TC_features, TC)
+    minMI_features <- c(minMI_features, minMI)
+  }
+  
+  return(list(TC_features = TC_features, minMI_features = minMI_features))
+}
+
+
+## Permutation test
+mc.permute.test <- function(study.data.list, study.label.list, w.est = NULL, n.perm = 1000, n.parallel = 50){
+  if(is.null(w.est)){w.est <- unname(c(table(unlist(study.label.list)))/length(unlist(study.label.list)))}
+  feature.names <- colnames(study.data.list[[1]])
+  
+  
+  ## Obtain the permuted labels
+  n.feature <- ncol(study.data.list[[1]])
+  n.study   <- length(study.data.list)
+  size.study <- sapply(1:n.study, function(s) length(study.label.list[[s]]))
+  perm.label <- list()
+  for(p in 1:n.perm){
+    perm <- lapply(1:n.study, function(s) sample(study.label.list[[s]]))
+    perm.label <- c(perm.label, list(perm))
+  }
+  
+  ### an overall analysis
+  ## permutation stat
+  perm.res <- mclapply(1:n.perm, function(p) mc.stat(study.data.list, perm.label[[p]], w.est = w.est), mc.cores = n.parallel)
+  TC_perm <- t(sapply(1:n.perm, function(p) perm.res[[p]]$TC_features))
+  minMI_perm <- t(sapply(1:n.perm, function(p) perm.res[[p]]$minMI_features))
+  stat <- mc.stat(study.data.list, study.label.list, w.est = w.est)
+  
+  
+  ## TC table
+  TC_stat <- stat$TC_features
+  TC_pval <- sapply(1:n.feature, function(s) mean(TC_perm[,s] >= stat$TC_features[s]))
+  TC_qval <- p.adjust(TC_pval, method = "fdr")
+  TC_tbl <- data.frame(stat = TC_stat,
+                       pval = TC_pval,
+                       qval = TC_qval)
+  rownames(TC_tbl) <- feature.names
+  
+  ## minMI table
+  minMI_stat <- stat$minMI_features
+  minMI_pval <- sapply(1:n.feature, function(s) mean(minMI_perm[,s] >= stat$minMI_features[s]))
+  minMI_qval <- p.adjust(minMI_pval, method = "fdr")
+  minMI_tbl <- data.frame(stat = minMI_stat,
+                          pval = minMI_pval,
+                          qval = minMI_qval)
+  rownames(minMI_tbl) <- feature.names
+  
+  
+  ### post-hoc pair-wise analysis
+  pairs_MI_tbl_list <- list()
+  allpairs = combn(1:length(study.data.list), 2)
+  for(i in 1:ncol(allpairs)){
+    pairs_perm <- mclapply(1:n.perm, function(p) mc.stat(study.data.list[allpairs[,i]], perm.label[[p]][allpairs[,i]], w.est = w.est), mc.cores = n.parallel)
+    pairs_perm <- t(sapply(1:n.perm, function(p) pairs_perm[[p]]$TC_features))
+    
+    pairs_stat <- mc.stat(study.data.list[allpairs[,i]], study.label.list[allpairs[,i]], w.est = w.est)
+    pairs_MI_stat <- pairs_stat$TC_features
+    pairs_MI_pval <- sapply(1:n.feature, function(s) mean(pairs_perm[,s] >= pairs_stat$TC_features[s]))
+    pairs_MI_qval <- p.adjust(pairs_MI_pval, method = "fdr")
+    
+    pairs_MI_tbl <- data.frame(stat = pairs_MI_stat,
+                               pval = pairs_MI_pval,
+                               qval = pairs_MI_qval)
+    rownames(pairs_MI_tbl) <- feature.names
+    
+    pairs_MI_tbl_list <- c(pairs_MI_tbl_list, list(pairs_MI_tbl))
+  }
+  names(pairs_MI_tbl_list) <- paste(combn(1:length(study.data.list), 2)[1,], combn(1:length(study.data.list), 2)[2,], sep = ":")
+  
+  return(list(TC_tbl = TC_tbl, minMI_tbl = minMI_tbl, 
+              pairs_MI_tbl_list = pairs_MI_tbl_list))
+}
+
