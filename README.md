@@ -1,2 +1,2 @@
-# multiclass_concordance
+# multi-study multi-class concordance analysis (MSCC)
  
