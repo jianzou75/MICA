@@ -1,2 +1,2 @@
-# multi-study multi-class concordance analysis (MSCC)
+# Multi-study Multi-class Concordance Analysis (MSCC)
  
