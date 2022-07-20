@@ -168,7 +168,7 @@ mc.stat <- function(study.data.list, study.label.list, w.est = NULL){
 #' @export
 #'
 #' @examples
-mc.permute.test <- function(study.data.list, study.label.list, w.est = NULL, n.perm = 1000, n.parallel = 50){
+mscc.permute.test <- function(study.data.list, study.label.list, w.est = NULL, n.perm = 1000, n.parallel = 50){
   if(!all(unlist(lapply(study.data.list, ncol)) == ncol(study.data.list[[1]]))){stop("The number of features should be equal between two studies.")}
   if(is.null(w.est)){w.est <- unname(c(table(unlist(study.label.list)))/length(unlist(study.label.list)))}
   feature.names <- colnames(study.data.list[[1]])
