@@ -10,7 +10,7 @@ The package can be downloaded and installed from GitHub.
 
 ```
 install.packages('devtools')
-devtools::install_github('jianzou75/CASCAM')
+devtools::install_github('jianzou75/MSCC')
 ```
 
 
