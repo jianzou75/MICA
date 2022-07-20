@@ -1,9 +1,9 @@
 {
     "id": "03FBE7E2",
-    "path": "C:/Users/zou19/OneDrive - University of Pittsburgh/Ongoing_Project/Methodology/202203_multi_class_correlation/multiclass_concordance/MultiClassConcordance/DESCRIPTION",
+    "path": "C:/Users/zou19/OneDrive - University of Pittsburgh/Ongoing_Project/Methodology/202203_multi_class_correlation/20220719_package/MSCC/DESCRIPTION",
     "project_path": "DESCRIPTION",
     "type": "dcf",
-    "hash": "3787566528",
+    "hash": "1259249997",
     "contents": "",
     "dirty": false,
     "created": 1657140739007.0,
@@ -16,11 +16,11 @@
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1657140649,
+    "lastKnownWriteTime": 1658283606,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1657140649,
+    "last_content_update": 1658283606021,
     "read_only": false,
     "read_only_alternatives": []
 }
