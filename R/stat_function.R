@@ -2,9 +2,9 @@
 #'
 #' This function is used to calculate the multi-class correlation (MCC) between two studies of gene expression, where the gene expressions are assumed to follow Gaussian distribution.
 #'
-#' @param study1.data a data frame or matrix with rows for the genes and columns for the samples. (study 1)
+#' @param study1.data a data frame or matrix with rows for the samples and columns for the genes. (study 1)
 #' @param study1.label a vector of the class labels for study 1.
-#' @param study2.data a data frame or matrix with rows for the genes and columns for the samples. (study 2)
+#' @param study2.data a data frame or matrix with rows for the samples and columns for the genes. (study 2)
 #' @param study2.label a vector of the class labels for study 1.
 #' @param w.est a vector of pre-defined class weights that add up to 1. If not specified, it will be calculated from the data.
 #'
@@ -40,7 +40,7 @@ MCC <- function(study1.data, study1.label, study2.data, study2.label, w.est = NU
 #'
 #' This function is used to calculate the minimum multi-class correlation (min-MCC) among multiple studies of gene expression, where the gene expressions are assumed to follow Gaussian distribution.
 #'
-#' @param study.data.list a list of data frames or matrices with rows for the genes and columns for the samples.
+#' @param study.data.list a list of data frames or matrices with rows for the samples and columns for the genes.
 #' @param study.label.list a list of vectors of the class labels.
 #' @param w.est a vector of pre-defined class weights that add up to 1. If not specified, it will be calculated from the data.
 #'
@@ -75,7 +75,7 @@ minMCC <- function(study.data.list, study.label.list, w.est = NULL){
 #'
 #' This function is used to calculate the multi-class total correlation (MC-TC) among multiple studies of gene expression, where the gene expressions are assumed to follow Gaussian distribution.
 #'
-#' @param study.data.list a list of data frames or matrices with rows for the genes and columns for the samples.
+#' @param study.data.list a list of data frames or matrices with rows for the samples and columns for the genes.
 #' @param study.label.list a list of vectors of the class labels.
 #' @param w.est a vector of pre-defined class weights that add up to 1. If not specified, it will be calculated from the data.
 #'
@@ -138,7 +138,7 @@ MCTC <- function(study.data.list, study.label.list, w.est = NULL){
 #' A Function to Combine the MC-TC and min-MCC
 #'
 #' @keywords internal
-#' @param study.data.list a list of data frames or matrices with rows for the genes and columns for the samples.
+#' @param study.data.list a list of data frames or matrices with rows for the samples and columns for the genes.
 #' @param study.label.list a list of vectors of the class labels.
 #' @param w.est a vector of pre-defined class weights that add up to 1. If not specified, it will be calculated from the data.
 #'
@@ -158,7 +158,7 @@ mc.stat <- function(study.data.list, study.label.list, w.est = NULL){
 
 #' Permutation Test for min-MCC, MC-TC, and Post-hoc MC-MI Analysis
 #'
-#' @param study.data.list a list of data frames or matrices with rows for the genes and columns for the samples.
+#' @param study.data.list a list of data frames or matrices with rows for the samples and columns for the genes.
 #' @param study.label.list a list of vectors of the class labels.
 #' @param w.est a vector of pre-defined class weights that add up to 1. If not specified, it will be calculated from the data.
 #' @param n.perm permutation times.
