@@ -121,6 +121,38 @@ mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$MCTC_tbl$qval <= 0.05
 mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$minMCC_tbl$qval <= 0.05)[501:2000])))
 
 
+### Figure 1 (illustration) (simulation_case3_example.RData)
+set.seed(1)
+sim.data = Simulation("case3")
+perm.test.res <- mscc.permute.test(study.data.list = sim.data$study.data.list, study.label.list = sim.data$study.label.list,
+                                   w.est = NULL, n.perm = 1000, n.parallel = 50)
+
+gene1 = scale(sapply(sim.data$study.data.list, function(x) x[,515])) %>% data.frame()  %>% mutate(time = sim.data$study.label.list[[1]])
+gene2 = scale(sapply(sim.data$study.data.list, function(x) x[,301])) %>% data.frame()  %>% mutate(time = sim.data$study.label.list[[1]])
+gene3 = scale(sapply(sim.data$study.data.list, function(x) x[,441])) %>% data.frame()  %>% mutate(time = sim.data$study.label.list[[1]])
+gene4 = scale(sapply(sim.data$study.data.list, function(x) x[,1369])) %>% data.frame()  %>% mutate(time = sim.data$study.label.list[[1]])
+colnames(gene1)[1:3] = colnames(gene2)[1:3] = colnames(gene3)[1:3] = colnames(gene4)[1:3] = c("Study 1", "Study 2", "Study 3", "Study 4")
+
+gene1.long = gene1 %>% tibble::rownames_to_column("ID") %>% tidyr::gather(., tissue, expression, -c(ID, time), factor_key=TRUE) %>% mutate(gene = "Gene 1")
+gene2.long = gene2 %>% tibble::rownames_to_column("ID") %>% tidyr::gather(., tissue, expression, -c(ID, time), factor_key=TRUE) %>% mutate(gene = "Gene 2")
+gene3.long = gene3 %>% tibble::rownames_to_column("ID") %>% tidyr::gather(., tissue, expression, -c(ID, time), factor_key=TRUE) %>% mutate(gene = "Gene 3")
+gene4.long = gene4 %>% tibble::rownames_to_column("ID") %>% tidyr::gather(., tissue, expression, -c(ID, time), factor_key=TRUE) %>% mutate(gene = "Gene 4")
+gene.cmb = rbind(gene1.long, gene2.long, gene3.long, gene4.long)
+
+fig1 = ggboxplot(gene.cmb, x = "time", y = "expression",
+                 add = "jitter", add.params = list(alpha = 1.2, size = 1),
+                 facet.by = c("tissue", "gene"), color = "gene",
+                 font.label = list(face = "bold")) +
+  theme_bw() +
+  theme(legend.position="none", strip.text.x = element_text(face = "bold", size = 12),
+        strip.text.y = element_text(face = "bold", size = 12),
+        axis.title = element_text(size=12,face="bold"),
+        axis.text = element_text(size=12)) +
+  ylim(c(-2,2)) +
+  stat_summary(fun = median, geom = "line", aes(group=1, color=gene), size = 1) +
+  ylab("Expression") + xlab("Class")
+ggsave(fig1, width = 8, height = 6.5, unit = "in", file = "figure1_illustration.svg")
+
 
 
 

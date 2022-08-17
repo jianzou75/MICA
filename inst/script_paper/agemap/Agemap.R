@@ -26,9 +26,9 @@ gene.cmb$tissue[gene.cmb$tissue == "S"]  = "Spleen"
 gene.cmb$gene[gene.cmb$gene == "Mm.277792"] = "Col1a2"
 gene.cmb$gene[gene.cmb$gene == "Mm.27897"]  = "Dnaja1"
 
-fig1 = ggboxplot(gene.cmb, x = "time", y = "expression",
+fig2 = ggboxplot(gene.cmb, x = "time", y = "expression",
           add = "jitter", add.params = list(alpha = 1.2, size = 1),
-          facet.by = c("gene", "tissue"), color = "tissue",
+          facet.by = c("gene", "tissue"), color = "gene",
           font.label = list(face = "bold")) +
   theme_bw() +
   theme(legend.position="none", strip.text.x = element_text(face = "bold", size = 12),
@@ -36,7 +36,56 @@ fig1 = ggboxplot(gene.cmb, x = "time", y = "expression",
         axis.title = element_text(size=12,face="bold"),
         axis.text = element_text(size=12)) +
   ylim(c(-2,2)) +
-  stat_summary(fun = median, geom = "line", aes(group=1, color=tissue), size = 1) +
+  stat_summary(fun = median, geom = "line", aes(group=1, color=gene), size = 1) +
   ylab("Expression") + xlab("Age")
-ggsave(fig1, width = 15, height = 6, unit = "in", file = "figure1_Col1a2_Dnaja1_pattern.svg")
+ggsave(fig2, width = 15, height = 6, unit = "in", file = "figure2_Col1a2_Dnaja1_pattern.svg")
+
+
+## 02. MC-TC identified genes
+tissue_gene_boxplot <- function(tissue_label, gene, tissue_name){
+
+  tissue1 = scale(agemap_data_list[[tissue_label[1]]][,gene]) %>% data.frame()  %>% mutate(time =  agemap_label_list[[tissue_label[1]]])
+  tissue2 = scale(agemap_data_list[[tissue_label[2]]][,gene]) %>% data.frame()  %>% mutate(time =  agemap_label_list[[tissue_label[2]]])
+
+  tissue1.long = tissue1 %>% tibble::rownames_to_column("ID") %>% tidyr::gather(., gene, expression, -c(ID, time), factor_key=TRUE) %>% mutate(tissue = tissue_name[1])
+  tissue2.long = tissue2 %>% tibble::rownames_to_column("ID") %>% tidyr::gather(., gene, expression, -c(ID, time), factor_key=TRUE) %>% mutate(tissue = tissue_name[2])
+  tissue = rbind(tissue1.long, tissue2.long)
+ # tissue$gene = gene_map$SYMBOL[match(tissue$gene,gene_map$UNIGENE)]
+
+  figure <- ggboxplot(tissue, x = "time", y = "expression",
+                      add = "jitter", add.params = list(alpha = 0.6, size = 1),
+                      facet.by = c("tissue", "gene"), color = "gene") +
+    theme_bw() +
+    theme(legend.position="none") +
+    ylim(c(-2,2)) +
+    stat_summary(fun = median, geom = "line", aes(group=1, color=gene), size = 1) +
+    ylab("") + xlab("")
+
+  return(figure)
+}
+
+grp_name = combn(c("Ms", "Ad", "Hi", "Sp", "S"), 2)
+grp_num  = combn(1:5, 2)
+bp_list <- c()
+
+for (i in c(1:8,10)){
+  tissue_num  = grp_num[,i]
+  tissue_name = grp_name[,i]
+  gene_identify = which(agemap_result$MCTC_tbl$qval < 0.05 & agemap_result$pairs_MI_tbl_list[[i]]$qval < 0.05)
+  bp_list <-c(bp_list, list(tissue_gene_boxplot(tissue_num, gene_identify, tissue_name)))
+}
+
+bp1 = plot_grid(bp_list[[1]], NULL, nrow = 1, rel_widths = c(13, 0))
+bp2 = plot_grid(bp_list[[2]], NULL, nrow = 1, rel_widths = c(3, 9))
+bp3 = plot_grid(bp_list[[3]], NULL, nrow = 1, rel_widths = c(7, 6))
+bp4 = plot_grid(bp_list[[4]], NULL, nrow = 1, rel_widths = c(8, 5))
+bp5 = plot_grid(bp_list[[5]], NULL, nrow = 1, rel_widths = c(1, 8))
+bp6 = plot_grid(bp_list[[6]], NULL, nrow = 1, rel_widths = c(4, 8))
+bp7 = plot_grid(bp_list[[7]], NULL, nrow = 1, rel_widths = c(5, 7))
+bp8 = plot_grid(bp_list[[8]], NULL, nrow = 1, rel_widths = c(7, 6))
+bp10 = plot_grid(bp_list[[9]], NULL, nrow = 1, rel_widths = c(5, 7))
+
+supfig1 = plot_grid(bp1, bp2, bp3, bp4, bp5, bp6, bp7, bp8, bp10,
+                    ncol = 1, align = "v", axis = "tblr")
+ggsave(supfig1, width = 20, height = 30, unit = "in", file = "supfig1_mcmi.svg")
 
