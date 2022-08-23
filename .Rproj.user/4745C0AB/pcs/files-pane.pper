@@ -1,13 +1,13 @@
 {
     "sortOrder": [
         {
-            "columnIndex": 4,
-            "ascending": false
-        },
-        {
             "columnIndex": 2,
             "ascending": true
+        },
+        {
+            "columnIndex": 4,
+            "ascending": false
         }
     ],
-    "path": "C:/Users/zou19/OneDrive - University of Pittsburgh/Ongoing_Project/Methodology/202203_multi_class_correlation/20220719_package/MSCC/data"
+    "path": "C:/Users/zou19/OneDrive - University of Pittsburgh/Ongoing_Project/Methodology/202203_multi_class_correlation/20220719_package/MSCC/inst/script_paper/simulation"
 }
