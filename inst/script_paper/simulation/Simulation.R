@@ -144,10 +144,10 @@ fig1 = ggboxplot(gene.cmb, x = "time", y = "expression",
                  facet.by = c("tissue", "gene"), color = "gene",
                  font.label = list(face = "bold")) +
   theme_bw() +
-  theme(legend.position="none", strip.text.x = element_text(face = "bold", size = 12),
-        strip.text.y = element_text(face = "bold", size = 12),
-        axis.title = element_text(size=12,face="bold"),
-        axis.text = element_text(size=12)) +
+  theme(legend.position="none", strip.text.x = element_text(face = "bold", size = 20),
+        strip.text.y = element_text(face = "bold", size = 20),
+        axis.title = element_text(size=20,face="bold"),
+        axis.text = element_text(size=18)) +
   ylim(c(-2,2)) +
   stat_summary(fun = median, geom = "line", aes(group=1, color=gene), size = 1) +
   ylab("Expression") + xlab("Class")

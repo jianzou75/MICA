@@ -29,16 +29,16 @@ gene.cmb$gene[gene.cmb$gene == "Mm.27897"]  = "Dnaja1"
 fig2 = ggboxplot(gene.cmb, x = "time", y = "expression",
           add = "jitter", add.params = list(alpha = 1.2, size = 1),
           facet.by = c("gene", "tissue"), color = "gene",
-          font.label = list(face = "bold")) +
+          font.label = list(face = "bold", size = 20)) +
   theme_bw() +
-  theme(legend.position="none", strip.text.x = element_text(face = "bold", size = 12),
-        strip.text.y = element_text(face = "bold", size = 12),
-        axis.title = element_text(size=12,face="bold"),
-        axis.text = element_text(size=12)) +
+  theme(legend.position="none", strip.text.x = element_text(face = "bold", size = 20),
+        strip.text.y = element_text(face = "bold", size = 20),
+        axis.title = element_text(size=20,face="bold"),
+        axis.text = element_text(size=20)) +
   ylim(c(-2,2)) +
   stat_summary(fun = median, geom = "line", aes(group=1, color=gene), size = 1) +
   ylab("Expression") + xlab("Age")
-ggsave(fig2, width = 15, height = 6, unit = "in", file = "figure2_Col1a2_Dnaja1_pattern.svg")
+ggsave(fig2, width = 15, height = 6, unit = "in", file = "figure2_Col1a2_Dnaja1_pattern.eps", device = "eps")
 
 
 ## 02. MC-TC identified genes
@@ -54,9 +54,13 @@ tissue_gene_boxplot <- function(tissue_label, gene, tissue_name){
 
   figure <- ggboxplot(tissue, x = "time", y = "expression",
                       add = "jitter", add.params = list(alpha = 0.6, size = 1),
-                      facet.by = c("tissue", "gene"), color = "gene") +
+                      facet.by = c("tissue", "gene"), color = "gene",
+                      font.label = list(face = "bold", size = 25)) +
     theme_bw() +
-    theme(legend.position="none") +
+    theme(legend.position="none", strip.text.x = element_text(face = "bold", size = 15),
+          strip.text.y = element_text(face = "bold", size = 15),
+          axis.title = element_text(size=15,face="bold"),
+          axis.text = element_text(size=15)) +
     ylim(c(-2,2)) +
     stat_summary(fun = median, geom = "line", aes(group=1, color=gene), size = 1) +
     ylab("") + xlab("")

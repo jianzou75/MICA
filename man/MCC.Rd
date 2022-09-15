@@ -7,11 +7,11 @@
 MCC(study1.data, study1.label, study2.data, study2.label, w.est = NULL)
 }
 \arguments{
-\item{study1.data}{a data frame or matrix with rows for the genes and columns for the samples. (study 1)}
+\item{study1.data}{a data frame or matrix with rows for the samples and columns for the genes. (study 1)}
 
 \item{study1.label}{a vector of the class labels for study 1.}
 
-\item{study2.data}{a data frame or matrix with rows for the genes and columns for the samples. (study 2)}
+\item{study2.data}{a data frame or matrix with rows for the samples and columns for the genes. (study 2)}
 
 \item{study2.label}{a vector of the class labels for study 1.}
 

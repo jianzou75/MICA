@@ -7,7 +7,7 @@
 mc.stat(study.data.list, study.label.list, w.est = NULL)
 }
 \arguments{
-\item{study.data.list}{a list of data frames or matrices with rows for the genes and columns for the samples.}
+\item{study.data.list}{a list of data frames or matrices with rows for the samples and columns for the genes.}
 
 \item{study.label.list}{a list of vectors of the class labels.}
 
