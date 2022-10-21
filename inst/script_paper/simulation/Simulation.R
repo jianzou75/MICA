@@ -78,11 +78,9 @@ for(i in 1:200){
   set.seed(i)
   sim.data = Simulation("case1")
   perm.test.res <- mscc.permute.test(study.data.list = sim.data$study.data.list, study.label.list = sim.data$study.label.list,
-                                   w.est = NULL, n.perm = 1000, n.parallel = 50)
+                                   w.est = NULL, n.perm = 1000, n.parallel = 40)
   perm.test.res.list1 <- c(perm.test.res.list1, list(perm.test.res))
 }
-
-
 
 ### Case 2
 perm.test.res.list2 <- list()
@@ -90,7 +88,7 @@ for(i in 1:200){
   set.seed(i)
   sim.data = Simulation("case2")
   perm.test.res <- mscc.permute.test(study.data.list = sim.data$study.data.list, study.label.list = sim.data$study.label.list,
-                                   w.est = NULL, n.perm = 1000, n.parallel = 50)
+                                   w.est = NULL, n.perm = 1000, n.parallel = 40)
   perm.test.res.list2 <- c(perm.test.res.list2, list(perm.test.res))
 }
 
@@ -100,7 +98,7 @@ for(i in 1:200){
   set.seed(i)
   sim.data = Simulation("case3")
   perm.test.res <- mscc.permute.test(study.data.list = sim.data$study.data.list, study.label.list = sim.data$study.label.list,
-                                   w.est = NULL, n.perm = 1000, n.parallel = 50)
+                                   w.est = NULL, n.perm = 1000, n.parallel = 40)
   perm.test.res.list3 <- c(perm.test.res.list3, list(perm.test.res))
 }
 
@@ -108,17 +106,17 @@ for(i in 1:200){
 
 ### After iteration
 perm.test.res.list = perm.test.res.list3
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$MCTC_tbl$qval <= 0.05)[1:300])))
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$minMCC_tbl$qval <= 0.05)[1:300])))
+mean(sapply(1:200, function(x) sum((perm.test.res.list[[x]]$MCTC_tbl$qval <= 0.05)[1:300])))
+mean(sapply(1:200, function(x) sum((perm.test.res.list[[x]]$minMCC_tbl$qval <= 0.05)[1:300])))
 
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$MCTC_tbl$qval <= 0.05)[301:400])))
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$minMCC_tbl$qval <= 0.05)[301:400])))
+mean(sapply(1:200, function(x) sum((perm.test.res.list[[x]]$MCTC_tbl$qval <= 0.05)[301:400])))
+mean(sapply(1:200, function(x) sum((perm.test.res.list[[x]]$minMCC_tbl$qval <= 0.05)[301:400])))
 
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$MCTC_tbl$qval <= 0.05)[401:500])))
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$minMCC_tbl$qval <= 0.05)[401:500])))
+mean(sapply(1:200, function(x) sum((perm.test.res.list[[x]]$MCTC_tbl$qval <= 0.05)[401:500])))
+mean(sapply(1:200, function(x) sum((perm.test.res.list[[x]]$minMCC_tbl$qval <= 0.05)[401:500])))
 
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$MCTC_tbl$qval <= 0.05)[501:2000])))
-mean(sapply(1:50, function(x) sum((perm.test.res.list[[x]]$minMCC_tbl$qval <= 0.05)[501:2000])))
+mean(sapply(1:200, function(x) sum((perm.test.res.list[[x]]$MCTC_tbl$qval <= 0.05)[501:2000])))
+mean(sapply(1:200, function(x) sum((perm.test.res.list[[x]]$minMCC_tbl$qval <= 0.05)[501:2000])))
 
 
 ### Figure 1 (illustration) (simulation_case3_example.RData)

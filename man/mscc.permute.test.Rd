@@ -9,7 +9,8 @@ mscc.permute.test(
   study.label.list,
   w.est = NULL,
   n.perm = 1000,
-  n.parallel = 50
+  n.parallel = 50,
+  lambda = 0.3
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ mscc.permute.test(
 \item{n.perm}{permutation times.}
 
 \item{n.parallel}{number of cores used for parallel computation.}
+
+\item{lambda}{cut-off to determine the non-DE genes (for q-value computation)}
 }
 \value{
 

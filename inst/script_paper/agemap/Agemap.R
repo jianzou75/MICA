@@ -38,7 +38,7 @@ fig2 = ggboxplot(gene.cmb, x = "time", y = "expression",
   ylim(c(-2,2)) +
   stat_summary(fun = median, geom = "line", aes(group=1, color=gene), size = 1) +
   ylab("Expression") + xlab("Age")
-ggsave(fig2, width = 15, height = 6, unit = "in", file = "figure2_Col1a2_Dnaja1_pattern.eps", device = "eps")
+ggsave(fig2, width = 15, height = 6, unit = "in", file = "figure2_Col1a2_Dnaja1_pattern.png", device = "png")
 
 
 ## 02. MC-TC identified genes
@@ -72,7 +72,7 @@ grp_name = combn(c("Ms", "Ad", "Hi", "Sp", "S"), 2)
 grp_num  = combn(1:5, 2)
 bp_list <- c()
 
-for (i in c(1:8,10)){
+for (i in 1:10){
   tissue_num  = grp_num[,i]
   tissue_name = grp_name[,i]
   gene_identify = which(agemap_result$MCTC_tbl$qval < 0.05 & agemap_result$pairs_MI_tbl_list[[i]]$qval < 0.05)
@@ -80,16 +80,16 @@ for (i in c(1:8,10)){
 }
 
 bp1 = plot_grid(bp_list[[1]], NULL, nrow = 1, rel_widths = c(13, 0))
-bp2 = plot_grid(bp_list[[2]], NULL, nrow = 1, rel_widths = c(3, 9))
-bp3 = plot_grid(bp_list[[3]], NULL, nrow = 1, rel_widths = c(7, 6))
-bp4 = plot_grid(bp_list[[4]], NULL, nrow = 1, rel_widths = c(8, 5))
-bp5 = plot_grid(bp_list[[5]], NULL, nrow = 1, rel_widths = c(1, 8))
-bp6 = plot_grid(bp_list[[6]], NULL, nrow = 1, rel_widths = c(4, 8))
-bp7 = plot_grid(bp_list[[7]], NULL, nrow = 1, rel_widths = c(5, 7))
-bp8 = plot_grid(bp_list[[8]], NULL, nrow = 1, rel_widths = c(7, 6))
-bp10 = plot_grid(bp_list[[9]], NULL, nrow = 1, rel_widths = c(5, 7))
+bp2 = plot_grid(bp_list[[2]], NULL, nrow = 1, rel_widths = c(5, 8))
+bp4 = plot_grid(bp_list[[4]], NULL, nrow = 1, rel_widths = c(5, 8))
+bp8 = plot_grid(bp_list[[8]], NULL, nrow = 1, rel_widths = c(9, 4))
+bp10 = plot_grid(bp_list[[10]], NULL, nrow = 1, rel_widths = c(5, 8))
 
-supfig1 = plot_grid(bp1, bp2, bp3, bp4, bp5, bp6, bp7, bp8, bp10,
+supfig1A = plot_grid(bp1, bp2, bp4, bp8, bp10,
                     ncol = 1, align = "v", axis = "tblr")
-ggsave(supfig1, width = 20, height = 30, unit = "in", file = "supfig1_mcmi.svg")
+supfig1B = plot_grid(bp5, bp6, bp7, bp8, bp10,
+                     ncol = 1, align = "v", axis = "tblr")
 
+
+ggsave(supfig1A, width = 10, height = 20, unit = "in", file = "fig3_mcmi.pdf")
+ggsave(supfig1B, width = 20, height = 25, unit = "in", file = "supfig1B_mcmi.pdf")

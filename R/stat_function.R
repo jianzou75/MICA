@@ -163,12 +163,13 @@ mc.stat <- function(study.data.list, study.label.list, w.est = NULL){
 #' @param w.est a vector of pre-defined class weights that add up to 1. If not specified, it will be calculated from the data.
 #' @param n.perm permutation times.
 #' @param n.parallel number of cores used for parallel computation.
+#' @param lambda cut-off to determine the non-DE genes (for q-value computation)
 #'
 #' @return
 #' @export
 #'
 #' @examples
-mscc.permute.test <- function(study.data.list, study.label.list, w.est = NULL, n.perm = 1000, n.parallel = 50){
+mscc.permute.test <- function(study.data.list, study.label.list, w.est = NULL, n.perm = 1000, n.parallel = 50, lambda = 0.3){
   if(!all(unlist(lapply(study.data.list, ncol)) == ncol(study.data.list[[1]]))){stop("The number of features should be equal between two studies.")}
   if(is.null(w.est)){w.est <- unname(c(table(unlist(study.label.list)))/length(unlist(study.label.list)))}
   feature.names <- colnames(study.data.list[[1]])
@@ -194,8 +195,9 @@ mscc.permute.test <- function(study.data.list, study.label.list, w.est = NULL, n
 
   ## TC table
   MCTC_stat <- stat$MCTC_stat
-  MCTC_pval <- sapply(1:n.feature, function(s) mean(MCTC_perm[,s] >= stat$MCTC_stat[s]))
-  MCTC_qval <- p.adjust(MCTC_pval, method = "fdr")
+  MCTC_pval <- sapply(1:n.feature, function(s) mean(c(MCTC_perm) >= stat$MCTC_stat[s]))
+  MCTC_qval <- p.adjust(MCTC_pval, method = "BH")
+
   MCTC_tbl <- data.frame(stat = MCTC_stat,
                          pval = MCTC_pval,
                          qval = MCTC_qval)
@@ -203,8 +205,9 @@ mscc.permute.test <- function(study.data.list, study.label.list, w.est = NULL, n
 
   ## minMCC table
   minMCC_stat <- stat$minMCC_stat
-  minMCC_pval <- sapply(1:n.feature, function(s) mean(minMCC_perm[,s] >= stat$minMCC_stat[s]))
-  minMCC_qval <- p.adjust(minMCC_pval, method = "fdr")
+  minMCC_pval <- sapply(1:n.feature, function(s) mean(c(minMCC_perm) >= stat$minMCC_stat[s]))
+  minMCC_qval <- p.adjust(minMCC_pval, method = "BH")
+
   minMCC_tbl <- data.frame(stat = minMCC_stat,
                            pval = minMCC_pval,
                            qval = minMCC_qval)
@@ -220,8 +223,8 @@ mscc.permute.test <- function(study.data.list, study.label.list, w.est = NULL, n
 
     pairs_stat <- mc.stat(study.data.list[allpairs[,i]], study.label.list[allpairs[,i]], w.est = w.est)
     pairs_MI_stat <- pairs_stat$MCTC_stat
-    pairs_MI_pval <- sapply(1:n.feature, function(s) mean(pairs_perm[,s] >= pairs_stat$MCTC_stat[s]))
-    pairs_MI_qval <- p.adjust(pairs_MI_pval, method = "fdr")
+    pairs_MI_pval <- sapply(1:n.feature, function(s) mean(c(pairs_perm) >= pairs_stat$MCTC_stat[s]))
+    pairs_MI_qval <- p.adjust(pairs_MI_pval, method = "BH")
 
     pairs_MI_tbl <- data.frame(stat = pairs_MI_stat,
                                pval = pairs_MI_pval,
