@@ -1,6 +1,10 @@
 {
     "sortOrder": [
         {
+            "columnIndex": 3,
+            "ascending": false
+        },
+        {
             "columnIndex": 2,
             "ascending": true
         },
@@ -9,5 +13,5 @@
             "ascending": false
         }
     ],
-    "path": "C:/Users/zou19/OneDrive - University of Pittsburgh/Ongoing_Project/Methodology/202203_multi_class_correlation/20220719_package/MSCC/R"
+    "path": "C:/Users/zou19/OneDrive - University of Pittsburgh/Ongoing_Project/Methodology/202203_multi_class_correlation/20220610_v2A/code/raw_code"
 }

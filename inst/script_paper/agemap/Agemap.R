@@ -26,7 +26,7 @@ gene.cmb$tissue[gene.cmb$tissue == "S"]  = "Spleen"
 gene.cmb$gene[gene.cmb$gene == "Mm.277792"] = "Col1a2"
 gene.cmb$gene[gene.cmb$gene == "Mm.27897"]  = "Dnaja1"
 
-fig2 = ggboxplot(gene.cmb, x = "time", y = "expression",
+figs4 = ggboxplot(gene.cmb, x = "time", y = "expression",
           add = "jitter", add.params = list(alpha = 1.2, size = 1),
           facet.by = c("gene", "tissue"), color = "gene",
           font.label = list(face = "bold", size = 20)) +
@@ -37,8 +37,9 @@ fig2 = ggboxplot(gene.cmb, x = "time", y = "expression",
         axis.text = element_text(size=20)) +
   ylim(c(-2,2)) +
   stat_summary(fun = median, geom = "line", aes(group=1, color=gene), size = 1) +
-  ylab("Expression") + xlab("Age")
-ggsave(fig2, width = 15, height = 6, unit = "in", file = "figure2_Col1a2_Dnaja1_pattern.png", device = "png")
+  ylab("Expression") + xlab("Age") +
+  scale_color_manual(values = c("#e15f41", "#546de5", "#3dc1d3"))
+ggsave(figs4, width = 15, height = 6, unit = "in", file = "../../202203_multi_class_correlation/manuscript_v4/figures_raw/figures4_Col1a2_Dnaja1_pattern.pdf")
 
 
 ## 02. MC-TC identified genes
