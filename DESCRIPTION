@@ -1,16 +1,15 @@
-Package: MSCC
+Package: MICA
 Type: Package
-Title: Multi-Study Multi-Class Concordance Analysis (MSCC)
+Title: Mutual Information Concordance Analysis (MICA)
 Version: 0.1.0
 Author: Jian Zou
 Maintainer: Jian Zou <jian.zou@pitt.edu>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: MICA is an R package for detecting biomarkers with concordant multi-class expression pattern across multiple omics studies from an information theoretic perspective. Our approach first detects biomarkers with concordant multi-class patterns across partial or all of the omics studies using a global test by mutual information. A post hoc analysis is then performed for each detected biomarkers and identify studies with concordant pattern.
 License: GPL-3 | file LICENSE
 Depends: R (>= 4.0.5)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 biocViews:
 Imports:
   parallel

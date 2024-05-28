@@ -1,22 +1,21 @@
-## Multi-Study Multi-Class Concordance Analysis (MSCC)
- 
-MSCC is an R package for calculating the concordance among multiple classes across multiple studies. 
-For example, if we have multiple studies of gene expression matrices showing the expression patterns across 
-multiple classes, MSCC could then identify the genes sharing same expression pattern across those studies.
+## Mutual Information Concordance Analysis (MICA)
+
+MSCC is an R package for detecting biomarkers with concordant multi-class expression pattern across multiple omics studies from an information theoretic perspective.
 
 ### Installation
 
 The package can be downloaded and installed from GitHub.
 
-```
+```r
 install.packages('devtools')
-devtools::install_github('jianzou75/MSCC')
+devtools::install_github('jianzou75/MICA')
 ```
 
 
 ### Quick start
+
 Users can call the below function to perform a complete analysis.
 
-```
-agemap_result <- mscc.permute.test(study.data.list = agemap_data_list, study.label.list = agemap_label_list)
+```r
+metabolism_result <- mica.full(metabolism_data, metabolism_label)
 ```
