@@ -1,6 +1,6 @@
 ## Mutual Information Concordance Analysis (MICA)
 
-MSCC is an R package for detecting biomarkers with concordant multi-class expression pattern across multiple omics studies from an information theoretic perspective.
+MICA is an R package for detecting biomarkers with concordant multi-class expression pattern across multiple omics studies from an information theoretic perspective.
 
 ### Installation
 
