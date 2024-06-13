@@ -5,7 +5,7 @@
 \alias{metabolism_data}
 \title{Mouse metabolism data list}
 \format{
-A list of data frames with rows for the samples and columns for the genes (Unigene ID).
+A list of data frames with rows for the genes (Unigene ID) and columns for the samples.
 }
 \usage{
 metabolism_data
